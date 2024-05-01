@@ -1,0 +1,84 @@
+﻿@model TestResultViewModel
+@{
+    ViewData["Title"] = "TestResults";
+}
+
+<section>
+    <div class="container">
+        <div class="row g-0 justify-content-center">
+            <div class="row mb-3">
+                <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-2 mb-sm-0">Results</h1>
+                    <a asp-action="Test" asp-controller="PerformanceMonitor" class="btn btn-sm btn-primary-soft mb-0">Test Again</a>
+                </div>
+            </div>
+            <div class="row g-4 mb-4">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="text-center p-4 bg-primary bg-opacity-10 border border-primary rounded-3">
+                        <h6>Tester Name</h6>
+                        <p class="mb-0 fs-5 text-primary text-sm">@Model.TesterFullName</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="text-center p-4 bg-primary bg-opacity-10 border border-primary rounded-3">
+                        <h6>Tester Email</h6>
+                        <p class="mb-0 fs-5 text-primary text-sm">@Model.TesterEmail</p>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-4">
+                    <div class="text-center p-4 bg-primary bg-opacity-15 border border-primary rounded-3">
+                        <h6>Tester IP</h6>
+                        <p class="mb-0 fs-5 text-primary text-sm">@Model.TesterIP</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card bg-transparent border">
+
+                <div class="card-header bg-light border-bottom">
+                    <div class="row g-3 align-items-center justify-content-between">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive border-0 rounded-3">
+                        <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="border-0 ">Test Name</th>
+                                    <th scope="col" class="border-0">Test Value</th>
+                                    <th scope="col" class="border-0">Resource URL</th>
+                                    <th scope="col" class="border-0">Resource IP</th>
+                                    <th scope="col" class="border-0">Date Time</th>
+                                    <th scope="col" class="border-0">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Tests)
+                                {
+
+                                    <tr>
+                                        <td class="h6">@item.TestName</td>
+                                        <td class="h6">@item.TestValue</td>
+                                        <td class="h6">@item.ResourceUrl</td>
+                                        <td class="h6">@item.ResourceIP</td>
+                                        <td class="h6">@item.TestDate</td>
+                                        <td class="h6">@item.TestType</td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>

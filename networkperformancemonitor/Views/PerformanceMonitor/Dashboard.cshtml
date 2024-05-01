@@ -1,0 +1,104 @@
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    var ip = "";
+    var email = "not found";
+    var name = "not found";
+    if (!string.IsNullOrEmpty(Model.CurrentUserIP))
+    {
+        ip = Model.CurrentUserIP;
+    }
+    if (!string.IsNullOrEmpty(Model.CurrentUserEmail))
+    {
+        email = Model.CurrentUserEmail;
+    }
+    if (!string.IsNullOrEmpty(Model.CurrentUserFullname))
+    {
+        name = Model.CurrentUserFullname;
+
+    }
+}
+<section>
+    <div class="container">
+        <div class="row g-0 justify-content-center">
+            <div class="row mb-3">
+                <div class="col-12 d-sm-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-2 mb-sm-0">Dashboard</h1>
+                    <a asp-action="Test" asp-controller="PerformanceMonitor" class="btn btn-sm btn-primary-soft mb-0">New Test</a>
+                </div>
+            </div>
+            <div class="row g-4 mb-4">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="text-center p-4 bg-primary bg-opacity-10 border border-primary rounded-3">
+                        <h6>Current User IP</h6>
+                        <p class="mb-0 fs-5 text-primary text-sm">@Model.CurrentUserIP</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="text-center p-4 bg-primary bg-opacity-10 border border-primary rounded-3">
+                        <h6>Current User Email</h6>
+                        <p class="mb-0 fs-5 text-primary text-sm">@Model.CurrentUserEmail</p>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="text-center p-4 bg-primary bg-opacity-10 border border-primary rounded-3">
+                        <h6>Current User Name</h6>
+                        <p class="mb-0 fs-5 text-primary text-sm">@Model.CurrentUserFullname</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card bg-transparent border">
+
+                <div class="card-header bg-light border-bottom">
+                    <div class="row g-3 align-items-center justify-content-between">
+                        <div class="col-md-8">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive border-0 rounded-3">
+                        <table class="table table-dark-gray align-middle p-4 mb-0 table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="border-0 ">Tester Email</th>
+                                    <th scope="col" class="border-0 ">Tester IP</th>
+                                    <th scope="col" class="border-0 ">Test Name</th>
+                                    <th scope="col" class="border-0">Test Value</th>
+                                    <th scope="col" class="border-0">Resource URL</th>
+                                    <th scope="col" class="border-0">Resource IP</th>
+                                    <th scope="col" class="border-0">Date Time</th>
+                                    <th scope="col" class="border-0">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Testers)
+                                {
+                                    foreach (var test in item.TestResults)
+                                    {
+                                        <tr>
+                                            <td class="h6">@item.Email</td>
+                                            <td class="h6">@item.IpAddress</td>
+                                            <td class="h6">@test.TestName</td>
+                                            <td class="h6">@test.TestValue</td>
+                                            <td class="h6">@test.Url</td>
+                                            <td class="h6">@test.UrlToIp</td>
+                                            <td class="h6">@test.TestDateTime</td>
+                                            <td class="h6">@test.TestType</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+

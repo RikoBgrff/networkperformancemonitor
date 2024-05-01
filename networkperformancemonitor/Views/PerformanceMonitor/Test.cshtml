@@ -1,0 +1,236 @@
+﻿@model TestViewModel
+@{
+    ViewData["Title"] = "Test";
+}
+
+<section>
+    <div class="container">
+        <div class="row g-5 justify-content-between">
+            <div class="col-md-8 mx-auto">
+                <h2 class="mb-3">Network Performance Monitor</h2>
+                <p>This tool tests the performance of your web application's network.</p>
+                <p class="mb-1">Enter the URL you want to monitor:</p>
+                <ul class="ps-3">
+                    <li>Choose "Full Test" for a comprehensive evaluation.</li>
+                    <li>Select specific tests if you prefer.</li>
+                    <li>Provide FullName and Email</li>
+                </ul>
+                <form id="performanceForm" class="row g-3" asp-action="Test" asp-controller="PerformanceMonitor" 
+                method="post" onsubmit="return validateForm()">
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-2">
+                                <label class="mb-lg-0 h5">URL</label><span class="text-danger h5">*</span>
+                            </div>
+                            <div class="col-2">
+                                <input type="text" readonly value=" https://www." class="form-control">
+                            </div>
+                            <div class="col-8">
+                                <input type="text" id="urlInput" required asp-for="Url" placeholder="example.com" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <label class="mb-lg-0 h5">Email and Full Name</label><span class="text-danger h5">*</span>
+                            </div>
+                            <div class="col-4">
+                                <input type="email" id="emailInput" required asp-for="Email" placeholder="example@gmail.com" class="form-control" />
+                            </div>
+                            <div class="col-4">
+                                <input type="text" required asp-for="FullName" placeholder="Ferdinand Macellan" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <label class="mb-lg-0 h4">Available Tests</label><span class="text-danger h5">*</span>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="FullTest" id="fullTestCheckbox" onchange="toggleCheckboxes(this)">
+                                    <label class="form-check-label h6" for="fullTestCheckbox">
+                                        Full Test
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="NetworkUsage" id="networkUsageCheckbox" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="networkUsageCheckbox">
+                                        Network Usage
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="PacketLossRate" id="packetLossRateCheckbox" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="packetLossRateCheckbox">
+                                        Packet Loss Rate
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="downloadSpeedCheckbox" asp-for="DownloadSpeed" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="downloadSpeedCheckbox">
+                                        Download Speed
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="responseTimeVariationCheckbox" asp-for="ResponseTimeVariation" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="responseTimeVariationCheckbox">
+                                        Response Time Variation
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="serverProcessingTimeCheckbox" asp-for="ServerProcessingTime" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="serverProcessingTimeCheckbox">
+                                        Server Processing Time
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="PageLoadTime" id="pageLoadTimeCheckbox" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="pageLoadTimeCheckbox">
+                                        Page Load Time
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="DNSResolutionTime" id="dnsResolutionTimeCheckbox" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="dnsResolutionTimeCheckbox">
+                                        DNS Resolution Time
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" asp-for="ConnectionTime" id="connectionTimeCheckbox" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="connectionTimeCheckbox">
+                                        Connection Time
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="timeToFirstByteCheckbox" asp-for="TimeToFirstByte" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="timeToFirstByteCheckbox">
+                                        Time To First Byte
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="numberOfHTTPRequestsCheckbox" asp-for="NumberOfHttpRequests" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="numberOfHTTPRequestsCheckbox">
+                                        Number Of HTTP Requests
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="contentDeliveryTimeCheckbox" asp-for="ContentDeliveryTime" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="contentDeliveryTimeCheckbox">
+                                        Content Delivery Time
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="latencyCheckbox" asp-for="Latency" onchange="checkFullTest()">
+                                    <label class="form-check-label h6" for="latencyCheckbox">
+                                        Latency
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-sm-end">
+                        <input class="btn btn-primary-soft mb-0" value="Start" type="submit" />
+                    </div>
+                </form>
+            </div>
+
+            @if (ViewBag.State == 0)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @ViewBag.Info
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (ViewBag.State == 1)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @ViewBag.Info
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<script>
+    function validateForm() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var isChecked = false;
+        checkboxes.forEach(function (checkbox) {
+            if (checkbox.checked) {
+                isChecked = true;
+            }
+        });
+
+        if (!isChecked) {
+            alert("Please select at least one test.");
+            return false;
+        }
+
+        return true;  
+    }
+
+    function toggleCheckboxes(checkbox) {
+        var checkboxes = document.querySelectorAll('.form-check-input');
+        checkboxes.forEach(function (cb) {
+            if (cb !== checkbox) {
+                cb.checked = checkbox.checked;
+                if (checkbox.checked) {
+                    cb.disabled = true;
+                } else {
+                    cb.disabled = false;
+                }
+            }
+        });
+    }
+
+    function checkFullTest() {
+        var fullTestCheckbox = document.getElementById('fullTestCheckbox');
+        if (!fullTestCheckbox.checked) {
+            fullTestCheckbox.disabled = false;
+        }
+    }
+</script>
+
